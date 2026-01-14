@@ -29,5 +29,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: live-image-amd64.hybrid.iso
-          path: ./build/*.iso
+          path: ./vyos-build/build/*.iso
 
