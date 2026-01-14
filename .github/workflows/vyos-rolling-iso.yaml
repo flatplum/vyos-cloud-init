@@ -19,7 +19,7 @@ jobs:
 
       - name: Build image
         run: |
-          docker run --rm -it --privileged \
+          docker run --rm --privileged \
             -v $(pwd):/vyos \
             -w /vyos \
             vyos/vyos-build:current \
