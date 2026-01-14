@@ -12,13 +12,11 @@ jobs:
         run: |
           docker pull vyos/vyos-build:current
 
-    steps:
       - name: Clone repository
         run: |
           git clone -b current --single-branch https://github.com/vyos/vyos-build
           cd vyos-build
 
-    steps:
       - name: Build image
         run: |
           docker run --rm -it --privileged \
