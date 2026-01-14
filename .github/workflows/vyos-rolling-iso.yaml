@@ -1,0 +1,38 @@
+name: Build VyOS Rolling ISO (NoCloud cloud-init)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-iso:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Pull Docker image
+        run: |
+          docker pull vyos/vyos-build:current
+
+    steps:
+      - name: Clone repository
+        run: |
+          git clone -b current --single-branch https://github.com/vyos/vyos-build
+          cd vyos-build
+
+    steps:
+      - name: Build image
+        run: |
+          docker run --rm -it --privileged \
+            -v $(pwd):/vyos \
+            -w /vyos \
+            vyos/vyos-build:current \
+            sudo ./build-vyos-image --architecture amd64 --build-by "j.randomhacker@vyos.io" --custom-package cloud-init generic
+
+      - name: List artifacts
+        run: ls -lh
+
+      - name: Upload ISO
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-image-amd64.hybrid.iso
+          path: ./build/*.iso
+
